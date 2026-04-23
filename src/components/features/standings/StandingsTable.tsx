@@ -3,11 +3,20 @@
 import Link from 'next/link'
 import { Team } from '@/types/database.types'
 
+type FormResult = 'V' | 'E' | 'D'
+
 interface Props {
   teams: Team[]
+  formMap?: Record<string, FormResult[]>
 }
 
-export default function StandingsTable({ teams }: Props) {
+const formColors: Record<FormResult, string> = {
+  V: 'bg-green-500 text-white',
+  E: 'bg-gray-400 text-white',
+  D: 'bg-red-500 text-white',
+}
+
+export default function StandingsTable({ teams, formMap = {} }: Props) {
   const sorted = [...teams].sort((a, b) => {
     if (b.points !== a.points) return b.points - a.points
     const gdA = a.goals_for - a.goals_against
@@ -32,6 +41,7 @@ export default function StandingsTable({ teams }: Props) {
               <th className="text-center px-2 py-3">GC</th>
               <th className="text-center px-2 py-3">DG</th>
               <th className="text-center px-3 py-3 font-bold text-gray-700">Pts</th>
+              <th className="text-center px-3 py-3 hidden sm:table-cell">Últimos 5</th>
             </tr>
           </thead>
           <tbody>
@@ -64,11 +74,20 @@ export default function StandingsTable({ teams }: Props) {
                   {team.goals_for - team.goals_against}
                 </td>
                 <td className="text-center px-3 py-3 font-bold text-gray-900">{team.points}</td>
+                <td className="text-center px-3 py-3 hidden sm:table-cell">
+                  <div className="flex items-center justify-center gap-1">
+                    {(formMap[team.id] ?? []).map((r, i) => (
+                      <span key={i} className={`w-6 h-6 rounded-full text-xs font-bold flex items-center justify-center ${formColors[r]}`}>
+                        {r}
+                      </span>
+                    ))}
+                  </div>
+                </td>
               </tr>
             ))}
             {sorted.length === 0 && (
               <tr>
-                <td colSpan={10} className="text-center py-10 text-gray-400 text-sm">
+                <td colSpan={11} className="text-center py-10 text-gray-400 text-sm">
                   Sin equipos registrados
                 </td>
               </tr>
