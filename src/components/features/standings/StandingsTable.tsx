@@ -31,17 +31,17 @@ export default function StandingsTable({ teams, formMap = {} }: Props) {
         <table className="w-full text-sm">
           <thead>
             <tr className="border-b border-gray-100 text-xs text-gray-400 uppercase tracking-wide">
-              <th className="text-left px-4 py-3 w-8">#</th>
-              <th className="text-left px-4 py-3">Equipo</th>
-              <th className="text-center px-2 py-3">PJ</th>
-              <th className="text-center px-2 py-3">G</th>
-              <th className="text-center px-2 py-3">E</th>
-              <th className="text-center px-2 py-3">P</th>
-              <th className="text-center px-2 py-3">GF</th>
-              <th className="text-center px-2 py-3">GC</th>
-              <th className="text-center px-2 py-3">DG</th>
-              <th className="text-center px-3 py-3 font-bold text-gray-700">Pts</th>
-              <th className="text-center px-3 py-3 hidden sm:table-cell">Últimos 5</th>
+              <th className="text-left px-4 py-4 w-8">#</th>
+              <th className="text-left px-4 py-4">Equipo</th>
+              <th className="text-center px-4 py-4">PJ</th>
+              <th className="text-center px-4 py-4">G</th>
+              <th className="text-center px-4 py-4">E</th>
+              <th className="text-center px-4 py-4">P</th>
+              <th className="text-center px-4 py-4">GF</th>
+              <th className="text-center px-4 py-4">GC</th>
+              <th className="text-center px-4 py-4">DG</th>
+              <th className="text-center px-4 py-4 font-bold text-gray-700">Pts</th>
+              <th className="text-center px-4 py-4 hidden sm:table-cell">Últimos 5</th>
             </tr>
           </thead>
           <tbody>
@@ -50,8 +50,8 @@ export default function StandingsTable({ teams, formMap = {} }: Props) {
                 key={team.id}
                 className="border-b border-gray-50 last:border-0 hover:bg-gray-50 transition-colors"
               >
-                <td className="px-4 py-3 text-gray-400 text-xs">{index + 1}</td>
-                <td className="px-4 py-3">
+                <td className="px-4 py-4 text-gray-400 text-xs">{index + 1}</td>
+                <td className="px-4 py-4">
                   <Link href={`/equipos/${team.id}`} className="flex items-center gap-2 hover:underline">
                     {team.logo_url ? (
                       <img src={team.logo_url} alt={team.name} className="w-6 h-6 rounded-full object-cover" />
@@ -63,18 +63,18 @@ export default function StandingsTable({ teams, formMap = {} }: Props) {
                     <span className="font-medium text-gray-900">{team.name}</span>
                   </Link>
                 </td>
-                <td className="text-center px-2 py-3 text-gray-600">{team.matches_played}</td>
-                <td className="text-center px-2 py-3 text-gray-600">{team.wins}</td>
-                <td className="text-center px-2 py-3 text-gray-600">{team.draws}</td>
-                <td className="text-center px-2 py-3 text-gray-600">{team.losses}</td>
-                <td className="text-center px-2 py-3 text-gray-600">{team.goals_for}</td>
-                <td className="text-center px-2 py-3 text-gray-600">{team.goals_against}</td>
-                <td className="text-center px-2 py-3 text-gray-600">
+                <td className="text-center px-4 py-4 text-gray-600">{team.matches_played}</td>
+                <td className="text-center px-4 py-4 text-gray-600">{team.wins}</td>
+                <td className="text-center px-4 py-4 text-gray-600">{team.draws}</td>
+                <td className="text-center px-4 py-4 text-gray-600">{team.losses}</td>
+                <td className="text-center px-4 py-4 text-gray-600">{team.goals_for}</td>
+                <td className="text-center px-4 py-4 text-gray-600">{team.goals_against}</td>
+                <td className="text-center px-4 py-4 text-gray-600">
                   {team.goals_for - team.goals_against > 0 ? '+' : ''}
                   {team.goals_for - team.goals_against}
                 </td>
-                <td className="text-center px-3 py-3 font-bold text-gray-900">{team.points}</td>
-                <td className="text-center px-3 py-3 hidden sm:table-cell">
+                <td className="text-center px-4 py-4 font-bold text-gray-900">{team.points}</td>
+                <td className="text-center px-4 py-4 hidden sm:table-cell">
                   <div className="flex items-center justify-center gap-1">
                     {(formMap[team.id] ?? []).map((r, i) => (
                       <span key={i} className={`w-6 h-6 rounded-full text-xs font-bold flex items-center justify-center ${formColors[r]}`}>
