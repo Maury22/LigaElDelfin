@@ -36,13 +36,14 @@ export async function createNews(formData: FormData) {
   const excerpt = (formData.get('excerpt') as string)?.trim()
   const content = (formData.get('content') as string)?.trim()
   const tournament_id = (formData.get('tournament_id') as string) || null
+  const instagram_url = (formData.get('instagram_url') as string)?.trim() || null
   const file = formData.get('image') as File
 
-  if (!title) return { error: 'El título es obligatorio' }
+  if (!title && !instagram_url) return { error: 'El título es obligatorio' }
 
   const { data: news, error } = await supabase
     .from('news')
-    .insert({ title, excerpt: excerpt || null, content: content || null, tournament_id })
+    .insert({ title: title || '—', excerpt: excerpt || null, content: content || null, tournament_id, instagram_url })
     .select('id')
     .single()
 

@@ -9,6 +9,7 @@ CREATE TABLE news (
   content       TEXT,
   image_url     TEXT,
   tournament_id UUID REFERENCES tournaments(id) ON DELETE SET NULL,
+  instagram_url TEXT,
   published_at  TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   created_at    TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );

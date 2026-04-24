@@ -34,6 +34,7 @@ export default function AdminNoticiasClient({
     e.preventDefault()
     if (!formRef.current) return
     setStatus('loading')
+    setErrorMsg('')
     const formData = new FormData(formRef.current)
     const result = await createNews(formData)
     if (result.error) {
@@ -109,6 +110,25 @@ export default function AdminNoticiasClient({
       <section>
         <h2 className="text-sm font-semibold text-gray-500 mb-3">Nueva noticia</h2>
         <form ref={formRef} onSubmit={handleSubmit} className="flex flex-col gap-4">
+          {/* Opción Instagram */}
+          <div className="bg-gradient-to-r from-purple-50 to-pink-50 border border-purple-100 rounded-xl p-4">
+            <label className="block text-sm font-semibold text-gray-700 mb-1">
+              Post de Instagram
+            </label>
+            <p className="text-xs text-gray-500 mb-2">
+              Pegá la URL del post (ej: https://www.instagram.com/p/XXXXX/). Si completás esto, se muestra el post embebido y no hace falta imagen ni texto.
+            </p>
+            <input name="instagram_url"
+              className="w-full border border-gray-300 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-purple-400 bg-white"
+              placeholder="https://www.instagram.com/p/..." />
+          </div>
+
+          <div className="flex items-center gap-3 text-xs text-gray-400">
+            <div className="flex-1 h-px bg-gray-200" />
+            <span>o cargá una noticia manual</span>
+            <div className="flex-1 h-px bg-gray-200" />
+          </div>
+
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Título *</label>
             <input name="title" required
