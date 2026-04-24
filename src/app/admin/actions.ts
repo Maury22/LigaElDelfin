@@ -30,6 +30,50 @@ async function uploadLogo(supabase: ReturnType<typeof getAdminClient>, teamId: s
   return data.publicUrl
 }
 
+export async function createNews(formData: FormData) {
+  const supabase = getAdminClient()
+  const title = (formData.get('title') as string)?.trim()
+  const excerpt = (formData.get('excerpt') as string)?.trim()
+  const content = (formData.get('content') as string)?.trim()
+  const tournament_id = (formData.get('tournament_id') as string) || null
+  const file = formData.get('image') as File
+
+  if (!title) return { error: 'El título es obligatorio' }
+
+  const { data: news, error } = await supabase
+    .from('news')
+    .insert({ title, excerpt: excerpt || null, content: content || null, tournament_id })
+    .select('id')
+    .single()
+
+  if (error) return { error: error.message }
+
+  if (file && file.size > 0) {
+    await supabase.storage.createBucket('news-images', { public: true })
+    const ext = file.name.split('.').pop()?.toLowerCase() ?? 'jpg'
+    const filename = `${news.id}.${ext}`
+    const bytes = await file.arrayBuffer()
+    const { error: uploadErr } = await supabase.storage
+      .from('news-images')
+      .upload(filename, bytes, { contentType: file.type, upsert: true })
+    if (!uploadErr) {
+      const { data: urlData } = supabase.storage.from('news-images').getPublicUrl(filename)
+      await supabase.from('news').update({ image_url: urlData.publicUrl }).eq('id', news.id)
+    }
+  }
+
+  revalidatePath('/')
+  return { success: true }
+}
+
+export async function deleteNews(newsId: string) {
+  const supabase = getAdminClient()
+  const { error } = await supabase.from('news').delete().eq('id', newsId)
+  if (error) return { error: error.message }
+  revalidatePath('/')
+  return { success: true }
+}
+
 export async function createTournament(data: { name: string }) {
   const supabase = getAdminClient()
   const { error } = await supabase.from('tournaments').insert({ name: data.name })

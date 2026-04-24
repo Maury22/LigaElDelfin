@@ -3,6 +3,7 @@ import Link from 'next/link'
 const navItems = [
   { href: '/admin', label: 'Inicio' },
   { href: '/admin/torneos', label: 'Torneos' },
+  { href: '/admin/noticias', label: 'Noticias' },
   { href: '/admin/partidos', label: 'Partidos' },
   { href: '/admin/equipos', label: 'Equipos' },
 ]
